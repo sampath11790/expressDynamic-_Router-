@@ -1,40 +1,70 @@
-const fs = require("fs");
-const path = require("path");
-const db = require("../util/database");
+const Sequelize = require("sequelize");
+const sequelize = require("../util/database");
 
-module.exports = class Product {
-  constructor(id = null, title, imageUrl, description, price) {
-    this.id = id;
-    this.title = title;
-    this.imageUrl = imageUrl;
-    this.description = description;
-    this.price = price;
-  }
+const Product = sequelize.define("products", {
+  id: {
+    type: Sequelize.INTEGER,
+    autoIncrement: true,
+    allowNull: false,
+    primaryKey: true,
+  },
+  title: {
+    type: Sequelize.STRING,
+    allowNull: false,
+  },
+  price: {
+    type: Sequelize.STRING,
+    allowNull: false,
+  },
+  imageUrl: {
+    type: Sequelize.STRING,
+    allowNull: false,
+  },
+  description: {
+    type: Sequelize.STRING,
+    allowNull: false,
+  },
+});
 
-  save() {
-    if (!this.id) {
-      return db.execute(
-        `INSERT INTO products (title, price, description, imageUrl) VALUES (?, ?, ?, ?)`,
-        [this.title, this.price, this.description, this.imageUrl]
-      );
-    }
-    return db.execute(
-      `UPDATE products SET title=?, price=?, description=?, imageUrl=? WHERE id=?`,
-      [this.title, this.price, this.description, this.imageUrl, this.id]
-    );
-  }
+module.exports = Product;
 
-  static fetchAll(cb) {
-    return db.execute("SELECT * FROM products");
-  }
+// const fs = require("fs");
+// const path = require("path");
+// const db = require("../util/database");
 
-  static findById(id, cb) {
-    return db.execute("SELECT * FROM products WHERE products.id=?", [id]);
-  }
-  static deletePoduct(id, cb) {
-    return db.execute("DELETE FROM products WHERE id=?", [id]);
-  }
-};
+// module.exports = class Product {
+//   constructor(id = null, title, imageUrl, description, price) {
+//     this.id = id;
+//     this.title = title;
+//     this.imageUrl = imageUrl;
+//     this.description = description;
+//     this.price = price;
+//   }
+
+//   save() {
+//     if (!this.id) {
+//       return db.execute(
+//         `INSERT INTO products (title, price, description, imageUrl) VALUES (?, ?, ?, ?)`,
+//         [this.title, this.price, this.description, this.imageUrl]
+//       );
+//     }
+//     return db.execute(
+//       `UPDATE products SET title=?, price=?, description=?, imageUrl=? WHERE id=?`,
+//       [this.title, this.price, this.description, this.imageUrl, this.id]
+//     );
+//   }
+
+//   static fetchAll(cb) {
+//     return db.execute("SELECT * FROM products");
+//   }
+
+//   static findById(id, cb) {
+//     return db.execute("SELECT * FROM products WHERE products.id=?", [id]);
+//   }
+//   static deletePoduct(id, cb) {
+//     return db.execute("DELETE FROM products WHERE id=?", [id]);
+//   }
+// };
 
 // const p = path.join(
 //   path.dirname(process.mainModule.filename),
