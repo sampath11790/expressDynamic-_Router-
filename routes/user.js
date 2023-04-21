@@ -1,5 +1,5 @@
 const express = require("express");
-const UserHandler = require("../controllers/usertesttest");
+const UserHandler = require("../controllers/usertest");
 const router = express.Router();
 
 router.post("/user-input", UserHandler.postUserdata);
