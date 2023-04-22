@@ -1,7 +1,7 @@
 const Sequelize = require("sequelize");
 
 const sequelize = require("../util/database");
-
+console.log("usertext");
 const Usertest = sequelize.define("usertests", {
   id: {
     type: Sequelize.INTEGER,
@@ -22,5 +22,6 @@ const Usertest = sequelize.define("usertests", {
     allowNull: false,
   },
 });
-
+// console.log(Usertest);
+// console.log(User)
 module.exports = Usertest;
