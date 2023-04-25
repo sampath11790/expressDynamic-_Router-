@@ -14,7 +14,7 @@ exports.postExpense = (req, res, next) => {
       .then((data) => {
         res.json(data);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.log("err", err));
     console.log(req.body);
   }
   //updating same row if id is true

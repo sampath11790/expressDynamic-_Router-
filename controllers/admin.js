@@ -13,17 +13,20 @@ exports.postAddProduct = (req, res, next) => {
   const imageUrl = req.body.imageUrl;
   const price = req.body.price;
   const description = req.body.description;
-  Product.create({
-    title: title,
-    price: price,
-    description: description,
-    imageUrl: imageUrl,
-  })
+  console.log(imageUrl, title);
+  req.user
+    .createProduct({
+      title: title,
+      price: price,
+      description: description,
+      imageUrl: imageUrl,
+    })
     .then((data) => {
       console.log("data stored data successfully");
       res.redirect("/");
     })
     .catch((err) => console.log(err));
+
   // const product = new Product(null, title, imageUrl, description, price);
   // product
   //   .save()
@@ -41,7 +44,9 @@ exports.getEditProduct = (req, res, next) => {
   if (!editMode) {
     return res.redirect("/");
   }
-  Product.findByPk(prodId).then((product) => {
+  // this will return array even if u try to find single value
+  Product.getProducts({ where: { id: prodId } }).then((products) => {
+    const product = products[0];
     if (!product) {
       return res.reIirect("/");
     }
