@@ -65,6 +65,31 @@ exports.postCart = (req, res, next) => {
       res.redirect("/cart");
     });
 
+  exports.postCartDeleteCart = (req, res, next) => {
+    const prodId = req.body.productId;
+    //storing cart data after fetch
+
+    //magic method
+    req.user
+      .getCart()
+      .then((cart) => {
+        fetchedCart = cart;
+        //magic method
+
+        return cart.getProducts({ where: { id: prodId } });
+      })
+      .then((products) => {
+        const product = products[0];
+        return product.listItem.destroy();
+      })
+
+      .then((data) => {
+        // return fetchedCart.addProduct(data, { through: { quantity: qty } });
+        res.redirect("/cart");
+      })
+      .catch((err) => console.log(err));
+  };
+
   // console.log(data);
   // })
   // .catch((err) => console.log(err));
